@@ -1,0 +1,23 @@
+{
+  "$schema": "https://raw.githubusercontent.com/vtex/node-vtex-api/master/gen/manifest.schema",
+  "vendor": "mystore",
+  "name": "custom-service",
+  "version": "1.0.0",
+  "title": "Custom Backend Service",
+  "description": "Custom Node.js service for VTEX IO",
+  "categories": [],
+  "builders": {
+    "node": "6.x"
+  },
+  "dependencies": {
+    "vtex.masterdata-client": "1.x"
+  },
+  "policies": [
+    {
+      "name": "read-workspace-apps"
+    },
+    {
+      "name": "colossus-fire-event"
+    }
+  ]
+}

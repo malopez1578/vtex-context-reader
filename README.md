@@ -5,11 +5,13 @@ Una extensión para VS Code que proporciona contexto específico de VTEX a GitHu
 ## Características
 
 - 🎯 **Detección automática de proyectos VTEX**: Identifica automáticamente si estás trabajando en un proyecto VTEX IO
-- 📊 **Análisis de contexto**: Analiza manifest.json, service.json, schemas y estructura del proyecto
-- 🧩 **Integración con Copilot**: Proporciona contexto específico de VTEX a GitHub Copilot
-- 🌳 **Vista de explorador**: Muestra la estructura del proyecto VTEX en el explorador
-- 🔄 **Actualización automática**: Se actualiza automáticamente cuando cambias archivos de configuración
-- 📁 **Soporte para múltiples builders**: React, Node, GraphQL, Store Theme, etc.
+- 🏢 **Soporte multi-proyecto**: Maneja múltiples proyectos VTEX en el mismo workspace
+- 📊 **Análisis completo de contexto**: Analiza manifest.json, service.json, schemas y estructura del proyecto
+- 🧩 **Integración con GitHub Copilot**: Proporciona contexto específico de VTEX para mejorar sugerencias
+- 🌳 **Vista de explorador VTEX**: Panel dedicado mostrando información del proyecto VTEX
+- 🔄 **Actualización automática**: Monitorea cambios en archivos de configuración VTEX
+- 📁 **Soporte multi-builder**: Compatible con React, Node.js, GraphQL, Store Theme y Pixel apps
+- 🎯 **Contexto inteligente**: Detecta automáticamente el proyecto del archivo activo
 
 For example if there is an image subfolder under your extension project workspace:
 

@@ -1,0 +1,17 @@
+{
+  "memory": 512,
+  "ttl": 30,
+  "timeout": 5,
+  "minReplicas": 1,
+  "maxReplicas": 3,
+  "routes": {
+    "api": {
+      "path": "/_v/api/:path*",
+      "public": true
+    },
+    "webhook": {
+      "path": "/_v/webhook/:event",
+      "public": true
+    }
+  }
+}

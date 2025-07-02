@@ -1,22 +1,42 @@
 # Change Log
 
-## [1.0.0] - 2025-07-02
+## [1.0.0] - 2024-12-20
 
 ### Added
-- 🎯 **Detección automática de proyectos VTEX**: Identifica proyectos VTEX IO automáticamente
-- 📊 **Análisis completo de contexto**: Parsea manifest.json, service.json, schemas y estructura del proyecto
-- 🧩 **Integración con GitHub Copilot**: Proporciona contexto específico de VTEX para mejorar sugerencias
-- 🌳 **Vista de explorador VTEX**: Panel dedicado mostrando información del proyecto VTEX
-- 🔄 **Actualización automática**: Monitorea cambios en archivos de configuración VTEX
-- 📁 **Soporte multi-builder**: Compatible con React, Node.js, GraphQL, Store Theme y Pixel apps
+- 🎯 **Multi-Project Detection**: Automatically identifies multiple VTEX projects in workspace
+  - Supports multi-root workspaces
+  - Handles monorepo structures with nested projects
+  - Auto-discovers new projects when added to workspace
 
-### Features
-- Context provider inteligente basado en tipo de archivo
-- Tree view con información organizada del proyecto
-- Comandos para mostrar y refrescar contexto
-- File watchers para actualización en tiempo real
-- Logging y debugging integrado
-- Soporte para múltiples tipos de archivos VTEX
+- 📊 **Comprehensive Context Analysis**: Parses all VTEX-specific files
+  - `manifest.json` - App configuration and dependencies
+  - `service.json` - Service configuration
+  - `schema.json` - App configuration schema
+  - React components in `/react/` folder
+  - Node.js services in `/node/` folder
+  - GraphQL schemas in `/graphql/` folder
+
+- 🧩 **Enhanced GitHub Copilot Integration**: Provides intelligent VTEX context
+  - File-specific context based on current active editor
+  - Cross-project context sharing
+  - Real-time context updates
+
+- 🌳 **Multi-Project Tree View**: Shows all VTEX projects in Explorer
+  - Hierarchical view of all detected projects
+  - Expandable sections for project details
+  - Visual indicators for different project types
+
+- � **Smart File Watchers**: Automatic updates and monitoring
+  - Project-specific refresh on file changes
+  - Auto-detection of new/removed projects
+  - Workspace folder change monitoring
+
+### Technical Features
+- TypeScript with strict typing
+- ESLint integration for code quality
+- ESBuild for fast compilation
+- Comprehensive error handling and logging
+- Performance optimized for large workspaces
 
 ### Supported VTEX Files
 - `manifest.json` - Configuración de aplicación

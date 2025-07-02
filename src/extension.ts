@@ -13,16 +13,9 @@ let treeDataProvider: VTEXTreeDataProvider;
 export async function activate(context: vscode.ExtensionContext) {
 	console.log('VTEX Context Reader extension is being activated...');
 
-	// Get the current workspace
-	const workspaceFolder = vscode.workspace.workspaceFolders?.[0];
-	if (!workspaceFolder) {
-		console.log('No workspace folder found');
-		return;
-	}
-
 	try {
-		// Initialize context provider
-		contextProvider = new VTEXContextProvider(workspaceFolder.uri.fsPath);
+		// Initialize context provider (now handles multiple workspace folders)
+		contextProvider = new VTEXContextProvider();
 		await contextProvider.initialize();
 
 		// Initialize tree data provider
@@ -61,9 +54,13 @@ export async function activate(context: vscode.ExtensionContext) {
 			treeDataProvider
 		);
 
-		// Show success message only if VTEX project detected
+		// Show success message based on project detection
 		if (contextProvider.isVTEXProject()) {
-			vscode.window.showInformationMessage('VTEX Context Reader activated! Context is now available for Copilot.');
+			const projectCount = contextProvider.getAllProjects().length;
+			const message = projectCount === 1 
+				? 'VTEX Context Reader activated! Context is now available for Copilot.'
+				: `VTEX Context Reader activated! Found ${projectCount} VTEX projects. Context is now available for Copilot.`;
+			vscode.window.showInformationMessage(message);
 		}
 
 		console.log('VTEX Context Reader extension activated successfully');
@@ -95,24 +92,48 @@ function registerCopilotIntegration(context: vscode.ExtensionContext) {
 }
 
 /**
- * Register file watchers for automatic context updates
+ * Register file watchers for automatic context updates (multi-project)
  */
 function registerFileWatchers(context: vscode.ExtensionContext) {
-	// Watch for changes in VTEX configuration files
+	// Watch for changes in VTEX configuration files across all workspace folders
 	const manifestWatcher = vscode.workspace.createFileSystemWatcher('**/manifest.json');
 	const serviceWatcher = vscode.workspace.createFileSystemWatcher('**/service.json');
 	const schemaWatcher = vscode.workspace.createFileSystemWatcher('**/schema.json');
 
-	const refreshOnChange = async () => {
+	const refreshOnChange = async (uri: vscode.Uri) => {
 		if (contextProvider) {
-			await contextProvider.refreshContext();
+			const projectPath = uri.fsPath.endsWith('manifest.json') 
+				? uri.fsPath.replace('/manifest.json', '')
+				: uri.fsPath.replace(/\/(service|schema)\.json$/, '');
+			
+			console.log(`VTEX file changed in project: ${projectPath}`);
+			await contextProvider.refreshProject(projectPath);
 			treeDataProvider?.refresh();
 		}
 	};
 
+	const addProject = async (uri: vscode.Uri) => {
+		if (contextProvider && uri.fsPath.endsWith('manifest.json')) {
+			const projectPath = uri.fsPath.replace('/manifest.json', '');
+			console.log(`New VTEX project detected: ${projectPath}`);
+			await contextProvider.addProject(projectPath);
+			treeDataProvider?.refresh();
+		}
+	};
+
+	const removeProject = (uri: vscode.Uri) => {
+		if (contextProvider && uri.fsPath.endsWith('manifest.json')) {
+			const projectPath = uri.fsPath.replace('/manifest.json', '');
+			console.log(`VTEX project removed: ${projectPath}`);
+			contextProvider.removeProject(projectPath);
+			treeDataProvider?.refresh();
+		}
+	};
+
+	// Set up watchers
 	manifestWatcher.onDidChange(refreshOnChange);
-	manifestWatcher.onDidCreate(refreshOnChange);
-	manifestWatcher.onDidDelete(refreshOnChange);
+	manifestWatcher.onDidCreate(addProject);
+	manifestWatcher.onDidDelete(removeProject);
 
 	serviceWatcher.onDidChange(refreshOnChange);
 	serviceWatcher.onDidCreate(refreshOnChange);
@@ -122,7 +143,19 @@ function registerFileWatchers(context: vscode.ExtensionContext) {
 	schemaWatcher.onDidCreate(refreshOnChange);
 	schemaWatcher.onDidDelete(refreshOnChange);
 
-	context.subscriptions.push(manifestWatcher, serviceWatcher, schemaWatcher);
+	// Watch for workspace folder changes
+	const workspaceFoldersWatcher = vscode.workspace.onDidChangeWorkspaceFolders(async () => {
+		console.log('Workspace folders changed, rescanning for VTEX projects...');
+		await contextProvider?.refreshContext();
+		treeDataProvider?.refresh();
+	});
+
+	context.subscriptions.push(
+		manifestWatcher, 
+		serviceWatcher, 
+		schemaWatcher,
+		workspaceFoldersWatcher
+	);
 }
 
 // This method is called when your extension is deactivated

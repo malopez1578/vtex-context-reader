@@ -35,7 +35,9 @@ export class VTEXProjectParser {
       dependencies: [],
       projectType: VTEXProjectType.UNKNOWN,
       workspaceRoot: this.workspaceRoot,
-      contextFiles: []
+      contextFiles: [],
+      projectName: '',
+      relativePath: ''
     };
 
     try {
@@ -47,6 +49,8 @@ export class VTEXProjectParser {
         context.builders = Object.keys(context.manifest.builders || {});
         context.dependencies = Object.keys(context.manifest.dependencies || {});
         context.projectType = this.determineProjectType(context.manifest);
+        context.projectName = context.manifest.name;
+        context.relativePath = vscode.workspace.asRelativePath(this.workspaceRoot);
         
         context.contextFiles.push({
           path: manifestPath,

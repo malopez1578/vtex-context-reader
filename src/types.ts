@@ -111,6 +111,26 @@ export interface VTEXProjectContext {
   projectType: VTEXProjectType;
   workspaceRoot: string;
   contextFiles: VTEXContextFile[];
+  projectName: string;
+  relativePath: string;
+}
+
+/**
+ * Multi-project workspace context
+ */
+export interface VTEXWorkspaceContext {
+  hasVTEXProjects: boolean;
+  projects: VTEXProjectContext[];
+  workspaceRoots: string[];
+}
+
+/**
+ * Active file context information
+ */
+export interface VTEXActiveFileContext {
+  filePath: string;
+  project?: VTEXProjectContext;
+  contextString: string;
 }
 
 /**

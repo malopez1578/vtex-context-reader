@@ -1,0 +1,19 @@
+{
+  "$schema": "https://raw.githubusercontent.com/vtex/node-vtex-api/master/gen/manifest.schema",
+  "vendor": "mystore",
+  "name": "store-theme",
+  "version": "1.0.0",
+  "title": "My Store Theme",
+  "description": "Custom store theme for my VTEX store",
+  "categories": [],
+  "builders": {
+    "store": "0.x"
+  },
+  "dependencies": {
+    "vtex.store": "2.x",
+    "vtex.store-header": "2.x",
+    "vtex.store-footer": "2.x",
+    "vtex.flex-layout": "0.x",
+    "vtex.rich-text": "0.x"
+  }
+}
