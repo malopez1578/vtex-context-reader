@@ -2,6 +2,7 @@
 // Import the module and reference it with the alias vscode in your code below
 import * as vscode from 'vscode';
 import { VTEXContextProvider } from './contextProvider';
+import { VTEXCopilotTester } from './copilotTester';
 import { VTEXTreeDataProvider } from './treeDataProvider';
 
 // Global instances
@@ -39,6 +40,13 @@ export async function activate(context: vscode.ExtensionContext) {
 			vscode.window.showInformationMessage('VTEX context refreshed');
 		});
 
+		// Register test commands for Copilot verification
+		VTEXCopilotTester.registerTestCommand(context, contextProvider);
+
+		const testCopilotCommand = vscode.commands.registerCommand('vtex-context-reader.verifyCopilotContext', async () => {
+			await VTEXCopilotTester.verifyCopilotSuggestions();
+		});
+
 		// Register for Copilot integration (if available)
 		registerCopilotIntegration(context);
 
@@ -50,6 +58,7 @@ export async function activate(context: vscode.ExtensionContext) {
 			treeView,
 			showContextCommand,
 			refreshContextCommand,
+			testCopilotCommand,
 			contextProvider,
 			treeDataProvider
 		);

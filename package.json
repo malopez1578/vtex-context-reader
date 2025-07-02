@@ -47,6 +47,16 @@
         "title": "Refresh VTEX Context",
         "category": "VTEX",
         "icon": "$(refresh)"
+      },
+      {
+        "command": "vtex-context-reader.testCopilotContext",
+        "title": "Test Copilot Context",
+        "category": "VTEX"
+      },
+      {
+        "command": "vtex-context-reader.verifyCopilotContext",
+        "title": "Verify Copilot Context",
+        "category": "VTEX"
       }
     ],
     "views": {
