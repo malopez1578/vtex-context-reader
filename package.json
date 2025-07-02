@@ -2,7 +2,7 @@
   "name": "vtex-context-reader",
   "displayName": "VTEX Context Reader",
   "description": "Provides GitHub Copilot with VTEX-specific context for better code generation and assistance",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "publisher": "malopez15",
   "author": "Miguel López",
   "license": "MIT",
