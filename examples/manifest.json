@@ -1,0 +1,27 @@
+{
+  "$schema": "https://raw.githubusercontent.com/vtex/node-vtex-api/master/gen/manifest.schema",
+  "vendor": "example",
+  "name": "vtex-context-demo",
+  "version": "1.0.0",
+  "title": "VTEX Context Demo App",
+  "description": "Demo app to showcase VTEX Context Reader extension",
+  "categories": [],
+  "builders": {
+    "react": "3.x",
+    "node": "6.x",
+    "graphql": "1.x"
+  },
+  "dependencies": {
+    "vtex.store": "2.x",
+    "vtex.product-context": "0.x",
+    "vtex.order-manager": "0.x"
+  },
+  "peerDependencies": {
+    "vtex.reviews-and-ratings": "3.x"
+  },
+  "policies": [
+    {
+      "name": "read-workspace-apps"
+    }
+  ]
+}

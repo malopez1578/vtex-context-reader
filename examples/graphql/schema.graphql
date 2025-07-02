@@ -1,0 +1,39 @@
+type Query {
+  """
+  Get product by ID
+  """
+  product(id: ID!): Product @cacheControl(scope: PUBLIC, maxAge: 300)
+  
+  """
+  Search products
+  """
+  searchProducts(term: String!, from: Int = 0, to: Int = 50): ProductConnection
+}
+
+type Product {
+  id: ID!
+  name: String!
+  description: String
+  brand: String
+  categories: [String!]!
+  skus: [SKU!]!
+}
+
+type SKU {
+  id: ID!
+  name: String!
+  isAvailable: Boolean!
+  price: Float
+  listPrice: Float
+  images: [Image!]!
+}
+
+type Image {
+  url: String!
+  alt: String
+}
+
+type ProductConnection {
+  products: [Product!]!
+  recordsFiltered: Int!
+}
